@@ -1,930 +1,1098 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HHPoker俱乐部客服 - 德扑圈官网下载</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HHPoker APP下载 - 德扑圈官网入口 · 俱乐部服务</title>
     <script src="https://cdn.tailwindcss.com">
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
+        html {
+            scroll-behavior: smooth;
         }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Glass morphism */
         .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
         }
         .glass-dark {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .hero-glow {
-            background: radial-gradient(ellipse at 20% 50%, rgba(16, 185, 129, 0.15), transparent 70%);
-        }
+
+        /* Card hover */
         .card-hover {
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -12px rgba(79, 70, 229, 0.25);
         }
-        .faq-item summary::-webkit-details-marker {
-            display: none;
+
+        /* Feature card */
+        .feature-card {
+            transition: all 0.35s ease;
         }
-        .faq-item summary {
-            list-style: none;
-            cursor: pointer;
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px -16px rgba(79, 70, 229, 0.30);
         }
-        .faq-item[open] .faq-icon {
-            transform: rotate(45deg);
-        }
-        .mobile-nav-open {
-            overflow: hidden;
-        }
-        .nav-link {
-            position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #10b981;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        .testimonial-card {
-            transition: all 0.3s ease;
-        }
-        .testimonial-card:hover {
-            transform: scale(1.01) translateY(-2px);
-        }
-        .stat-number {
-            font-variant-numeric: tabular-nums;
-        }
+
+        /* Button hover */
         .btn-primary {
-            background: linear-gradient(135deg, #059669, #047857);
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 24px -6px rgba(5, 150, 105, 0.35);
+            transition: all 0.3s ease;
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px -8px rgba(5, 150, 105, 0.45);
+            box-shadow: 0 12px 28px -8px rgba(79, 70, 229, 0.45);
         }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1.5px solid #10b981;
-            transition: all 0.25s ease;
+
+        .btn-outline {
+            transition: all 0.3s ease;
         }
-        .btn-secondary:hover {
-            background: #10b981;
-            color: #fff;
+        .btn-outline:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px -6px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 8px 24px -8px rgba(79, 70, 229, 0.25);
+            background: rgba(79, 70, 229, 0.06);
         }
+
+        /* Navbar scroll */
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.92) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        /* FAQ accordion */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .faq-answer.open {
+            max-height: 300px;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1.5rem;
+        }
+        .faq-question i {
+            transition: transform 0.35s ease;
+        }
+        .faq-question.open i {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile nav */
+        .mobile-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .mobile-nav.open {
+            max-height: 600px;
+            opacity: 1;
+        }
+
+        /* Stats gradient */
+        .stat-gradient {
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%);
+        }
+
+        /* Testimonial card */
+        .testimonial-card {
+            transition: all 0.4s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -16px rgba(79, 70, 229, 0.18);
+        }
+
+        /* CTA gradient */
+        .cta-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #4338ca 100%);
+        }
+
+        /* Hero image wrapper */
+        .hero-img-wrapper {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 64px -16px rgba(79, 70, 229, 0.30);
+        }
+
+        /* WeChat badge */
         .wechat-badge {
             background: linear-gradient(135deg, #10b981, #059669);
-            color: #fff;
+            color: white;
             padding: 0.25rem 1rem;
             border-radius: 9999px;
             font-weight: 600;
-            font-size: 0.875rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            letter-spacing: 0.02em;
+            font-size: 0.9rem;
         }
-        .wechat-badge-sm {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.75rem;
+
+        /* Section divider */
+        .section-divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+            border-radius: 4px;
+            margin: 0 auto 1.5rem auto;
         }
-        .footer-wechat {
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 12px;
-            padding: 0.75rem 1.25rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 600;
-            color: #10b981;
-        }
-        @media (max-width: 768px) {
-            .hero-stack {
-                flex-direction: column-reverse;
-            }
-            .hero-image-wrap {
-                width: 100%;
-                margin-bottom: 1.5rem;
-            }
-            .hero-text-wrap {
-                width: 100%;
-                text-align: center;
-            }
-            .hero-buttons {
-                justify-content: center;
-            }
-            .features-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .stat-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-            .faq-wrap {
-                padding-left: 0.5rem;
-                padding-right: 0.5rem;
-            }
-        }
-        @media (max-width: 480px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .stat-grid {
-                grid-template-columns: 1fr;
-            }
+
+        /* Responsive tweaks */
+        @media (max-width: 640px) {
             .hero-title {
-                font-size: 1.75rem;
-                line-height: 2.25rem;
+                font-size: 2.2rem !important;
+                line-height: 1.2 !important;
             }
-            .hero-sub {
-                font-size: 1rem;
-            }
-        }
-        .fade-in {
-            animation: fadeIn 0.8s ease forwards;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
+            .section-title {
+                font-size: 1.6rem !important;
             }
         }
-        .stagger-1 {
-            animation-delay: 0.1s;
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .stagger-2 {
-            animation-delay: 0.2s;
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
-        .stagger-3 {
-            animation-delay: 0.3s;
+        ::-webkit-scrollbar-thumb {
+            background: #a5b4fc;
+            border-radius: 8px;
         }
-        .stagger-4 {
-            animation-delay: 0.4s;
-        }
-        .bg-emerald-pattern {
-            background-image: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
-        }
-        .scroll-smooth {
-            scroll-behavior: smooth;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #818cf8;
         }
     </style>
 
-    <meta name="description" content="HHPoker俱乐部客服 - 德扑圈官网下载">
-    <meta name="keywords" content="HHPoker俱乐部客服, 德扑圈官网下载">
+    <meta name="description" content="HHPoker APP下载 - 德扑圈官网入口 · 俱乐部服务">
+    <meta name="keywords" content="HHPoker, APP下载, 德扑圈官网入口, 俱乐部服务">
 </head>
-<body class="scroll-smooth antialiased">
+<body>
 
-    <!-- ===================== NAVBAR ===================== -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass shadow-sm" id="navbar">
+    <!-- ==================== NAVBAR ==================== -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 md:h-20">
+            <div class="flex items-center justify-between h-16 lg:h-20">
                 <!-- Logo -->
-                <div class="flex items-center gap-2">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white shadow-md">
-                        <i class="fas fa-club text-sm"></i>
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 flex items-center justify-center text-white font-bold text-sm shadow-md transition-all duration-300 group-hover:shadow-lg group-hover:scale-105">
+                        <i class="fa-solid fa-crown text-xs"></i>
                     </div>
-                    <span class="font-bold text-lg text-slate-800 tracking-tight">HHPoker<span class="text-emerald-600">俱乐部</span></span>
+                    <span class="text-lg font-bold text-gray-800 tracking-tight">
+                        HHPoker<span class="text-indigo-600">.</span>
+                    </span>
+                </a>
+
+                <!-- Desktop links -->
+                <div class="hidden lg:flex items-center gap-7 text-sm font-medium text-gray-600">
+                    <a href="#home" class="hover:text-indigo-600 transition-colors duration-200">官网首页</a>
+                    <a href="#club" class="hover:text-indigo-600 transition-colors duration-200">俱乐部介绍</a>
+                    <a href="#hall" class="hover:text-indigo-600 transition-colors duration-200">牌局大厅</a>
+                    <a href="#download" class="hover:text-indigo-600 transition-colors duration-200">HHPoker 下载</a>
+                    <a href="#join" class="hover:text-indigo-600 transition-colors duration-200">加入俱乐部</a>
+                    <a href="#service" class="hover:text-indigo-600 transition-colors duration-200">俱乐部客服</a>
+                    <a href="#faq" class="hover:text-indigo-600 transition-colors duration-200">常见问题</a>
                 </div>
 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
-                    <a href="#hero" class="nav-link">首页</a>
-                    <a href="#features" class="nav-link">产品优势</a>
-                    <a href="#stats" class="nav-link">数据</a>
-                    <a href="#testimonials" class="nav-link">评价</a>
-                    <a href="#faq" class="nav-link">常见问题</a>
-                    <div class="flex items-center gap-2 ml-2 border-l border-slate-200 pl-4">
-                        <i class="fab fa-weixin text-emerald-500 text-lg"></i>
-                        <span class="text-emerald-700 font-semibold tracking-wide">329629</span>
-                    </div>
-                </nav>
+                <!-- Desktop CTA -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="#download" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold btn-primary shadow-md">
+                        <i class="fa-solid fa-download"></i> 立即下载
+                    </a>
+                </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" class="md:hidden flex items-center justify-center w-10 h-10 rounded-xl text-slate-700 hover:bg-emerald-50 transition" aria-label="菜单">
-                    <i id="menuIcon" class="fas fa-bars text-xl"></i>
+                <!-- Mobile hamburger -->
+                <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-indigo-50 transition-colors" aria-label="菜单">
+                    <i class="fa-solid fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="md:hidden hidden border-t border-slate-100 bg-white/95 backdrop-blur-md shadow-lg rounded-b-2xl overflow-hidden transition-all duration-300">
-            <div class="px-4 py-4 space-y-3 text-sm font-medium text-slate-700">
-                <a href="#hero" class="block px-3 py-2 rounded-lg hover:bg-emerald-50 transition">首页</a>
-                <a href="#features" class="block px-3 py-2 rounded-lg hover:bg-emerald-50 transition">产品优势</a>
-                <a href="#stats" class="block px-3 py-2 rounded-lg hover:bg-emerald-50 transition">数据</a>
-                <a href="#testimonials" class="block px-3 py-2 rounded-lg hover:bg-emerald-50 transition">评价</a>
-                <a href="#faq" class="block px-3 py-2 rounded-lg hover:bg-emerald-50 transition">常见问题</a>
-                <div class="flex items-center gap-3 pt-2 border-t border-slate-100 mt-2">
-                    <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                        <i class="fab fa-weixin"></i>
+        <!-- Mobile nav -->
+        <div id="mobileNav" class="mobile-nav lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100">
+            <div class="px-4 py-4 space-y-1.5 text-sm font-medium text-gray-700">
+                <a href="#home" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">官网首页</a>
+                <a href="#club" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">俱乐部介绍</a>
+                <a href="#hall" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">牌局大厅</a>
+                <a href="#download" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">HHPoker 下载</a>
+                <a href="#join" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">加入俱乐部</a>
+                <a href="#service" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">俱乐部客服</a>
+                <a href="#faq" class="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-600 transition-colors">常见问题</a>
+                <div class="pt-2">
+                    <a href="#download" class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 text-white font-semibold btn-primary shadow-md">
+                        <i class="fa-solid fa-download"></i> 立即下载
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20 pb-12 sm:pt-28 sm:pb-20 overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full bg-indigo-50/60 blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-indigo-50/40 blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+                <!-- Left: Image (as per variant: image on left) -->
+                <div class="order-1 lg:order-1">
+                    <div class="hero-img-wrapper">
+                        <img src="https://picsum.photos/seed/HHPoker%20APP%E4%B8%8B%E8%BD%BD-indigo/800/450" alt="HHPoker APP下载 德扑圈客户端" class="w-full h-auto object-cover rounded-xl">
+                    </div>
+                    <div class="mt-4 flex items-center justify-center gap-4 text-sm text-gray-500">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-indigo-500"></i> 官方认证</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-headset text-indigo-500"></i> 专属客服</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-indigo-500"></i> 极速入会</span>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="order-2 lg:order-2 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-5 border border-indigo-100/60">
+                        <i class="fa-solid fa-check-circle text-indigo-500"></i> 德扑圈 · HHPoker 官方入口
+                    </div>
+                    <h1 class="hero-title text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight">
+                        HHPoker <span class="text-indigo-600">APP下载</span>
+                    </h1>
+                    <p class="text-xl sm:text-2xl font-semibold text-gray-700 mt-3">
+                        德扑圈官网 · 俱乐部专属入口
+                    </p>
+                    <p class="text-base sm:text-lg text-gray-500 mt-4 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        提供 HHPoker 官方客户端下载、俱乐部加入、牌局大厅一站式服务。<br class="hidden sm:block">
+                        专属客服微信 <span class="font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg">329629</span> 全程指引，快速入会。
+                    </p>
+
+                    <!-- WeChat badge -->
+                    <div class="mt-5 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                        <span class="wechat-badge text-sm"><i class="fa-brands fa-weixin"></i> 客服微信：329629</span>
+                        <span class="text-xs text-gray-400">|</span>
+                        <span class="text-sm text-gray-500"><i class="fa-regular fa-clock text-indigo-400"></i> 7×24 在线响应</span>
+                    </div>
+
+                    <!-- CTA buttons -->
+                    <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <a href="#download" class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-indigo-600 text-white font-semibold text-base btn-primary shadow-lg shadow-indigo-200">
+                            <i class="fa-solid fa-download"></i> 立即下载
+                        </a>
+                        <a href="#service" class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl border-2 border-indigo-200 text-indigo-700 font-semibold text-base btn-outline hover:bg-indigo-50">
+                            <i class="fa-brands fa-weixin"></i> 联系客服
+                        </a>
+                        <a href="#join" class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gray-50 text-gray-700 font-semibold text-base btn-outline hover:bg-gray-100 border border-gray-200">
+                            <i class="fa-solid fa-right-to-bracket"></i> 加入俱乐部
+                        </a>
+                    </div>
+
+                    <!-- Trust badges -->
+                    <div class="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-5 text-xs text-gray-400">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield text-indigo-400"></i> 安全加密</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-indigo-400"></i> 正规入口</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-headset text-indigo-400"></i> 专属客服</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-indigo-400"></i> 快速入会</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FEATURES ==================== -->
+    <section class="py-16 sm:py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">核心服务</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">为什么选择 HHPoker</h2>
+                <p class="text-gray-500 mt-3 max-w-2xl mx-auto">官方认证入口 · 专属客服微信 329629 · 极速下载入会</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7">
+                <!-- 1 -->
+                <div class="feature-card p-6 sm:p-7 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/40 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mb-5">
+                        <i class="fa-solid fa-door-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">官方入口</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">德扑圈 / HHPoker 官方认证下载入口，杜绝第三方风险，安全可靠，一键直达官网客户端。</p>
+                </div>
+                <!-- 2 -->
+                <div class="feature-card p-6 sm:p-7 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/40 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mb-5">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">俱乐部客服</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">7×24 小时专属客服在线，微信 329629 快速响应，入会、下载、牌局问题一站式解决。</p>
+                </div>
+                <!-- 3 -->
+                <div class="feature-card p-6 sm:p-7 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/40 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mb-5">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">快速下载</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">支持 iOS / Android / PC 三端下载，高速稳定，俱乐部客服微信 329629 提供安装指引。</p>
+                </div>
+                <!-- 4 -->
+                <div class="feature-card p-6 sm:p-7 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/40 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mb-5">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">牌局大厅</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">多桌德扑房间、私局俱乐部、赛事活动丰富，牌谱回放，稳定流畅的牌局体验。</p>
+                </div>
+                <!-- 5 -->
+                <div class="feature-card p-6 sm:p-7 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/40 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mb-5">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">会员服务</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">专属俱乐部会员体系，尊享特权、活动优先、客服一对一，打造高品质牌友体验。</p>
+                </div>
+                <!-- 6 -->
+                <div class="feature-card p-6 sm:p-7 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/40 card-hover">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl mb-5">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">安全体验</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">顶级数据加密保护，公平公正的牌局环境，严格的隐私管理，让您安心享受每一局。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 官网入口模块 ==================== -->
+    <section class="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div>
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">官方入口</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">德扑圈 · HHPoker <br class="hidden sm:block"><span class="text-indigo-600">官网直达入口</span></h2>
+                    <p class="text-gray-500 mt-4 text-base leading-relaxed">
+                        认准 HHPoker 官方认证入口，避免误入仿冒站点。我们提供最直接的官网导航、客户端下载链接和俱乐部加入通道。
+                        专属客服微信 <span class="font-bold text-indigo-600">329629</span> 为您提供一对一的入会指引和下载协助，让您快速加入正规俱乐部，开启德扑之旅。
+                    </p>
+                    <ul class="mt-6 space-y-3 text-sm text-gray-600">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-indigo-500 mt-0.5"></i> 正规官方入口，安全可信赖</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-indigo-500 mt-0.5"></i> 客服微信 329629 全程一对一服务</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-indigo-500 mt-0.5"></i> 客户端下载 · 俱乐部加入 · 牌局咨询一站完成</li>
+                    </ul>
+                    <div class="mt-7 flex flex-wrap gap-3">
+                        <a href="#download" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm btn-primary shadow-md">
+                            <i class="fa-solid fa-download"></i> 客户端下载
+                        </a>
+                        <a href="#service" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-indigo-200 text-indigo-700 font-semibold text-sm btn-outline">
+                            <i class="fa-brands fa-weixin"></i> 客服 329629
+                        </a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="rounded-2xl overflow-hidden shadow-xl shadow-indigo-100/50">
+                        <img src="{自定义5}" alt="HHPoker官网入口" class="w-full h-auto object-cover rounded-2xl">
+                    </div>
+                    <div class="absolute -bottom-4 -left-4 glass rounded-xl px-5 py-3 shadow-lg border border-white/40">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-brands fa-weixin text-2xl text-green-500"></i>
+                            <div>
+                                <p class="text-xs text-gray-500">专属客服微信</p>
+                                <p class="text-sm font-bold text-gray-800">329629</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 俱乐部服务模块 ==================== -->
+    <section id="club" class="py-16 sm:py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">俱乐部服务</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">专属俱乐部 · 尊享牌友服务</h2>
+                <p class="text-gray-500 mt-3 max-w-2xl mx-auto">客服微信 329629 · 入会 · 咨询 · 代理合作 · 活动通知</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/60 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg mb-4">
+                        <i class="fa-solid fa-user-group"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">入会指引</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">添加客服微信 329629，获取详细的入会流程和俱乐部介绍，快速成为俱乐部成员。</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/60 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg mb-4">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">牌局咨询</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">7×24 小时在线解答牌局规则、赛事安排、私局预约等问题，让您随时掌握最新动态。</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/60 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg mb-4">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">代理合作</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">诚邀合作伙伴加入，共享俱乐部发展红利，客服微信 329629 欢迎咨询代理政策。</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/60 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg mb-4">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">活动通知</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">定期举办俱乐部赛事、会员活动、福利回馈，客服微信第一时间推送活动信息。</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/60 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg mb-4">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">牌友服务</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">搭建高质量牌友圈，交流牌技、分享经验，打造有温度的俱乐部社区。</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-white border border-indigo-100/60 shadow-sm card-hover">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg mb-4">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">专属客服</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">每位会员配备专属客服，微信 329629 一对一服务，问题不过夜，体验再升级。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== HHPoker 下载模块 ==================== -->
+    <section id="download" class="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">客户端下载</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">HHPoker 多端下载</h2>
+                <p class="text-gray-500 mt-3 max-w-xl mx-auto">iOS · Android · PC 客户端，联系客服微信 329629 获取下载指引</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- iOS -->
+                <div class="p-6 sm:p-8 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/30 card-hover text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-3xl mx-auto mb-5">
+                        <i class="fa-brands fa-apple"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">iOS 客户端</h3>
+                    <p class="text-gray-500 text-sm mb-6">iPhone / iPad 专属客户端，稳定流畅，安全加密。</p>
+                    <a href="#service" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm btn-primary shadow-md w-full justify-center">
+                        <i class="fa-solid fa-download"></i> 苹果下载
+                    </a>
+                    <p class="text-xs text-gray-400 mt-3">联系客服微信 329629 获取安装码</p>
+                </div>
+                <!-- Android -->
+                <div class="p-6 sm:p-8 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/30 card-hover text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-3xl mx-auto mb-5">
+                        <i class="fa-brands fa-android"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Android 客户端</h3>
+                    <p class="text-gray-500 text-sm mb-6">安卓手机完美适配，一键下载，畅享牌局。</p>
+                    <a href="#service" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm btn-primary shadow-md w-full justify-center">
+                        <i class="fa-solid fa-download"></i> 安卓下载
+                    </a>
+                    <p class="text-xs text-gray-400 mt-3">联系客服微信 329629 获取安装包</p>
+                </div>
+                <!-- PC -->
+                <div class="p-6 sm:p-8 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/30 card-hover text-center sm:col-span-2 lg:col-span-1">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-3xl mx-auto mb-5">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">PC 客户端</h3>
+                    <p class="text-gray-500 text-sm mb-6">Windows / Mac 电脑端，大屏体验更畅快。</p>
+                    <a href="#service" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm btn-primary shadow-md w-full justify-center">
+                        <i class="fa-solid fa-download"></i> 电脑端下载
+                    </a>
+                    <p class="text-xs text-gray-400 mt-3">联系客服微信 329629 获取下载链接</p>
+                </div>
+            </div>
+
+            <!-- Extra CTA -->
+            <div class="mt-10 text-center">
+                <div class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100/60 shadow-sm">
+                    <i class="fa-brands fa-weixin text-lg"></i>
+                    <span class="font-medium">下载遇到问题？联系客服微信 <span class="font-bold">329629</span> 获取一对一指引</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 牌局大厅模块 ==================== -->
+    <section id="hall" class="py-16 sm:py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="rounded-2xl overflow-hidden shadow-xl shadow-indigo-100/40">
+                        <img src="{自定义5}" alt="HHPoker牌局大厅" class="w-full h-auto object-cover rounded-2xl">
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">牌局大厅</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">丰富牌局 · 稳定体验 <br class="hidden sm:block"><span class="text-indigo-600">尽在 HHPoker</span></h2>
+                    <p class="text-gray-500 mt-4 text-base leading-relaxed">
+                        德扑房间、私局俱乐部、多桌赛事…… HHPoker 牌局大厅满足不同层次玩家的需求。
+                        稳定流畅的客户端体验，配合专属客服微信 329629 的快速协助，让您轻松加入每一局。
+                    </p>
+                    <ul class="mt-6 grid sm:grid-cols-2 gap-3 text-sm text-gray-600">
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-check-circle text-indigo-500"></i> 德扑专属房间</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-check-circle text-indigo-500"></i> 私局俱乐部</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-check-circle text-indigo-500"></i> 多桌同时体验</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-check-circle text-indigo-500"></i> 俱乐部赛事活动</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-check-circle text-indigo-500"></i> 牌谱回放分析</li>
+                        <li class="flex items-center gap-2.5"><i class="fa-solid fa-check-circle text-indigo-500"></i> 客服微信 329629 协助</li>
+                    </ul>
+                    <div class="mt-6">
+                        <a href="#service" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm btn-primary shadow-md">
+                            <i class="fa-brands fa-weixin"></i> 联系客服了解牌局
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 产品优势说明 ==================== -->
+    <section class="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">为什么选择我们</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">专业 · 稳定 · 可信赖</h2>
+                <p class="text-gray-500 mt-3 max-w-2xl mx-auto">六大核心优势，让您畅享德扑之旅</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-md shadow-gray-100/30 card-hover flex gap-4 items-start">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg flex-shrink-0">
+                        <i class="fa-solid fa-signal"></i>
                     </div>
                     <div>
-                        <div class="text-xs text-slate-500">客服微信</div>
-                        <div class="font-semibold text-emerald-700 text-base tracking-wide">329629</div>
+                        <h3 class="font-bold text-gray-900 mb-1">稳定体验</h3>
+                        <p class="text-sm text-gray-500">高性能服务器保障牌局流畅，低延迟、不掉线，每一局都酣畅淋漓。</p>
+                    </div>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-md shadow-gray-100/30 card-hover flex gap-4 items-start">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg flex-shrink-0">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 mb-1">俱乐部服务</h3>
+                        <p class="text-sm text-gray-500">从入会到日常牌局，专属客服微信 329629 全程跟进，提供全方位服务支持。</p>
+                    </div>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-md shadow-gray-100/30 card-hover flex gap-4 items-start">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg flex-shrink-0">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 mb-1">快速响应</h3>
+                        <p class="text-sm text-gray-500">7×24 小时在线客服，任何问题即时响应，让您的体验零等待。</p>
+                    </div>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-md shadow-gray-100/30 card-hover flex gap-4 items-start">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg flex-shrink-0">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 mb-1">安全环境</h3>
+                        <p class="text-sm text-gray-500">端到端加密传输，严格隐私保护，公平公正的牌局环境，安心享受每一局。</p>
+                    </div>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-md shadow-gray-100/30 card-hover flex gap-4 items-start">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg flex-shrink-0">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 mb-1">多端适配</h3>
+                        <p class="text-sm text-gray-500">iOS、Android、PC 全平台覆盖，数据同步，随时随地畅玩德扑。</p>
+                    </div>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-md shadow-gray-100/30 card-hover flex gap-4 items-start">
+                    <div class="w-11 h-11 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg flex-shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 mb-1">客服协助</h3>
+                        <p class="text-sm text-gray-500">添加微信 329629，从下载安装到入会参赛，客服提供一对一暖心指引。</p>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- 间距补偿 -->
-    <div class="h-16 md:h-20"></div>
+    </section>
 
-    <!-- ===================== HERO ===================== -->
-    <section id="hero" class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-emerald-50 py-10 md:py-20 hero-glow">
+    <!-- ==================== STATS ==================== -->
+    <section class="py-14 sm:py-20 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row hero-stack items-center gap-8 md:gap-12">
-                <!-- Hero 图片 - 左侧 -->
-                <div class="hero-image-wrap w-full md:w-1/2 flex-shrink-0 fade-in stagger-1">
-                    <div class="relative">
-                        <div class="absolute -inset-2 bg-emerald-200/30 rounded-2xl blur-xl"></div>
-                        <img src="https://picsum.photos/seed/HHPoker%E4%BF%B1%E4%B9%90%E9%83%A8%E5%AE%A2%E6%9C%8D-emerald/800/450" alt="HHPoker俱乐部" class="relative rounded-xl shadow-xl w-full h-auto object-cover border border-white/40" style="aspect-ratio:800/450;" loading="eager" />
-                        <div class="absolute bottom-3 left-3 bg-white/85 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow flex items-center gap-2 text-sm font-medium text-slate-700">
-                            <i class="fas fa-shield-alt text-emerald-500"></i>
-                            <span>官方认证 · 安全可靠</span>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                <div class="p-6 sm:p-8 rounded-2xl stat-gradient border border-indigo-50/80 text-center card-hover">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-indigo-600">{随机数字5}</p>
+                    <p class="text-sm text-gray-500 mt-2 font-medium">服务牌手数</p>
+                </div>
+                <div class="p-6 sm:p-8 rounded-2xl stat-gradient border border-indigo-50/80 text-center card-hover">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-indigo-600">{随机数字4}</p>
+                    <p class="text-sm text-gray-500 mt-2 font-medium">俱乐部成员</p>
+                </div>
+                <div class="p-6 sm:p-8 rounded-2xl stat-gradient border border-indigo-50/80 text-center card-hover">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-indigo-600">{随机数字6表示}</p>
+                    <p class="text-sm text-gray-500 mt-2 font-medium">牌局场次</p>
+                </div>
+                <div class="p-6 sm:p-8 rounded-2xl stat-gradient border border-indigo-50/80 text-center card-hover">
+                    <p class="text-3xl sm:text-4xl font-extrabold text-indigo-600">{随机数字4}</p>
+                    <p class="text-sm text-gray-500 mt-2 font-medium">客服响应评分</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">牌友评价</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">来自俱乐部会员的真实声音</h2>
+                <p class="text-gray-500 mt-3 max-w-2xl mx-auto">数千位牌友的共同选择，客服微信 329629 随时为您服务</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="testimonial-card p-6 rounded-2xl bg-white border border-gray-100 shadow-sm">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">"下载 HHPoker 特别顺利，客服微信 329629 发来安装包和教程，几分钟就搞定了。俱乐部牌局很丰富，体验非常棒！"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">张</div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">张先生</p>
+                            <p class="text-xs text-gray-400">俱乐部会员 · 入会3个月</p>
                         </div>
                     </div>
                 </div>
-                <!-- Hero 文案 - 右侧 -->
-                <div class="hero-text-wrap w-full md:w-1/2 fade-in stagger-2">
-                    <div class="inline-flex items-center gap-2 bg-emerald-100/70 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full mb-4 shadow-sm">
-                        <i class="fas fa-check-circle text-emerald-500"></i>
-                        <span>德扑圈官方合作伙伴</span>
+                <div class="testimonial-card p-6 rounded-2xl bg-white border border-gray-100 shadow-sm">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                     </div>
-                    <h1 class="hero-title text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight tracking-tight">
-                        HHPoker 俱乐部 <br />
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-emerald-800">专业·公平·极致体验</span>
-                    </h1>
-                    <p class="hero-sub text-base sm:text-lg text-slate-600 mt-4 max-w-lg leading-relaxed">
-                        加入 HHPoker 俱乐部，畅享专业德扑牌局。7x24小时客服支持，安全支付，快速入会。官方下载入口，极致扑克体验。
-                    </p>
-                    <!-- 客服微信显眼 -->
-                    <div class="mt-5 flex flex-wrap items-center gap-3">
-                        <span class="wechat-badge text-base px-4 py-1.5">
-                            <i class="fab fa-weixin"></i> 客服微信：329629
-                        </span>
-                        <span class="text-xs text-slate-500 bg-white/60 px-3 py-1 rounded-full">← 添加获取邀请码</span>
+                    <p class="text-gray-600 text-sm leading-relaxed">"客服响应速度真的快，半夜咨询入会流程，微信 329629 马上就回了。现在已经是俱乐部核心成员，每周都参加赛事。"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">李</div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">李先生</p>
+                            <p class="text-xs text-gray-400">俱乐部核心会员 · 入会1年</p>
+                        </div>
                     </div>
-                    <!-- Buttons -->
-                    <div class="hero-buttons flex flex-wrap gap-3 mt-6">
-                        <a href="#download" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg">
-                            <i class="fas fa-download"></i> 立即下载
-                        </a>
-                        <a href="#contact" class="btn-secondary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-emerald-700 font-semibold text-sm">
-                            <i class="fab fa-weixin"></i> 联系客服
-                        </a>
-                        <a href="#join" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 transition text-sm font-medium">
-                            <i class="fas fa-user-plus"></i> 加入俱乐部
-                        </a>
+                </div>
+                <div class="testimonial-card p-6 rounded-2xl bg-white border border-gray-100 shadow-sm">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                     </div>
-                    <!-- 信任标识 -->
-                    <div class="flex items-center gap-4 mt-6 text-xs text-slate-400">
-                        <span><i class="fas fa-users text-emerald-400"></i> 活跃玩家 52k+</span>
-                        <span><i class="fas fa-handshake text-emerald-400"></i> 俱乐部 1.2k+</span>
-                        <span><i class="fas fa-clock text-emerald-400"></i> 7x24 客服</span>
+                    <p class="text-gray-600 text-sm leading-relaxed">"朋友推荐来的，加上客服微信 329629 后很快就加入了俱乐部。牌局大厅选择很多，私局和赛事都很专业，推荐！"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">王</div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">王女士</p>
+                            <p class="text-xs text-gray-400">俱乐部会员 · 入会2个月</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card p-6 rounded-2xl bg-white border border-gray-100 shadow-sm sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">"PC 客户端很稳定，多桌同时开也不卡。客服微信 329629 还帮我调整了牌桌设置，服务非常贴心。"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">陈</div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">陈先生</p>
+                            <p class="text-xs text-gray-400">俱乐部会员 · 入会6个月</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card p-6 rounded-2xl bg-white border border-gray-100 shadow-sm sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">"加入流程非常清晰，客服微信 329629 发了一份详细的入会指南，每一步都有说明。现在每周都打俱乐部赛事，体验很好。"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">赵</div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">赵先生</p>
+                            <p class="text-xs text-gray-400">俱乐部会员 · 入会4个月</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card p-6 rounded-2xl bg-white border border-gray-100 shadow-sm sm:col-span-2 lg:col-span-1">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">"第一次玩德扑圈，朋友推荐了 HHPoker。客服微信 329629 特别耐心，从下载到入会全程指导，现在已经爱上这个俱乐部了。"</p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">刘</div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">刘女士</p>
+                            <p class="text-xs text-gray-400">新晋会员 · 入会2周</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 装饰 -->
-        <div class="absolute -top-20 -right-20 w-64 h-64 bg-emerald-200/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-emerald-300/10 rounded-full blur-3xl pointer-events-none"></div>
     </section>
 
-    <!-- ===================== 官网入口模块 ===================== -->
-    <section class="py-14 md:py-20 bg-white border-y border-slate-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                <i class="fas fa-door-open"></i>
-                <span>官方入口</span>
+    <!-- ==================== FAQ ==================== -->
+    <section id="faq" class="py-16 sm:py-24 bg-white relative">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">常见问题</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">您关心的问题</h2>
+                <p class="text-gray-500 mt-3 max-w-xl mx-auto">客服微信 329629 也随时为您解答</p>
+                <div class="section-divider"></div>
             </div>
-            <h2 class="text-2xl md:text-3xl font-bold text-slate-900">HHPoker 官网入口</h2>
-            <p class="text-slate-500 mt-2 max-w-xl mx-auto">通过官方渠道下载客户端，获取专属邀请码，开启专业牌局之旅。</p>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-                <div class="glass rounded-xl p-5 shadow-sm card-hover border border-emerald-100/40">
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl mb-3">
-                        <i class="fas fa-globe"></i>
+
+            <div class="space-y-3">
+                <!-- Q1 -->
+                <div class="rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-gray-800 hover:bg-indigo-50/40 transition-colors" data-index="0">
+                        <span>如何下载 HHPoker？</span>
+                        <i class="fa-solid fa-chevron-down text-indigo-400 text-xs transition-transform"></i>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-500 leading-relaxed" data-index="0">
+                        您可以通过本页的「HHPoker 下载」模块选择对应客户端（iOS / Android / PC），点击下载按钮后联系客服微信 329629 获取安装包和详细安装指引。客服会提供一对一协助，确保您顺利完成安装。
                     </div>
-                    <h3 class="font-semibold text-slate-800">官方网站</h3>
-                    <p class="text-sm text-slate-500 mt-1">访问 HHPoker 官网，获取最新资讯</p>
-                    <a href="#" class="inline-flex items-center gap-1 text-emerald-600 text-sm font-medium mt-3 hover:underline">
-                        进入官网 <i class="fas fa-arrow-right text-xs"></i>
+                </div>
+                <!-- Q2 -->
+                <div class="rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-gray-800 hover:bg-indigo-50/40 transition-colors" data-index="1">
+                        <span>如何加入俱乐部？</span>
+                        <i class="fa-solid fa-chevron-down text-indigo-400 text-xs transition-transform"></i>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-500 leading-relaxed" data-index="1">
+                        添加客服微信 329629，发送“加入俱乐部”，客服会为您介绍俱乐部详情、入会流程和会员权益。整个入会过程简单快捷，客服全程指引，一般当天即可完成加入。
+                    </div>
+                </div>
+                <!-- Q3 -->
+                <div class="rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-gray-800 hover:bg-indigo-50/40 transition-colors" data-index="2">
+                        <span>如何联系俱乐部客服？</span>
+                        <i class="fa-solid fa-chevron-down text-indigo-400 text-xs transition-transform"></i>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-500 leading-relaxed" data-index="2">
+                        您可以通过微信添加客服 329629，这是俱乐部官方客服微信。7×24 小时在线，支持入会咨询、下载协助、牌局问题、活动通知等所有服务需求。
+                    </div>
+                </div>
+                <!-- Q4 -->
+                <div class="rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-gray-800 hover:bg-indigo-50/40 transition-colors" data-index="3">
+                        <span>是否支持手机和电脑？</span>
+                        <i class="fa-solid fa-chevron-down text-indigo-400 text-xs transition-transform"></i>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-500 leading-relaxed" data-index="3">
+                        是的，HHPoker 支持 iOS（iPhone / iPad）、Android 手机以及 PC（Windows / Mac）三端使用。多端数据互通，您可以随时切换设备畅玩。联系客服微信 329629 获取对应客户端下载链接。
+                    </div>
+                </div>
+                <!-- Q5 -->
+                <div class="rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-gray-800 hover:bg-indigo-50/40 transition-colors" data-index="4">
+                        <span>客服微信是多少？</span>
+                        <i class="fa-solid fa-chevron-down text-indigo-400 text-xs transition-transform"></i>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-500 leading-relaxed" data-index="4">
+                        俱乐部官方客服微信：<span class="font-bold text-indigo-600">329629</span>。添加时请备注“HHPoker 咨询”，客服会尽快通过并为您提供一对一服务。所有下载、入会、牌局相关问题均可咨询。
+                    </div>
+                </div>
+                <!-- Q6 -->
+                <div class="rounded-xl border border-gray-100 bg-white shadow-sm overflow-hidden">
+                    <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-gray-800 hover:bg-indigo-50/40 transition-colors" data-index="5">
+                        <span>下载或登录遇到问题怎么办？</span>
+                        <i class="fa-solid fa-chevron-down text-indigo-400 text-xs transition-transform"></i>
+                    </button>
+                    <div class="faq-answer px-5 text-sm text-gray-500 leading-relaxed" data-index="5">
+                        如果遇到下载失败、安装报错、登录异常等问题，请直接联系客服微信 329629。客服会通过远程指引、发送最新安装包或提供解决方案，确保您能正常使用客户端。不要从非官方渠道下载，以免造成安全风险。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 客户端下载模块（强化） ==================== -->
+    <section id="join" class="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium mb-4 border border-indigo-100/60">客户端下载</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">立即下载 HHPoker</h2>
+                <p class="text-gray-500 mt-3 max-w-xl mx-auto">安卓 · 苹果 · 电脑端 ｜ 联系客服微信 329629 获取下载和入会指引</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/30 text-center card-hover">
+                    <div class="w-14 h-14 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 text-2xl mx-auto mb-4">
+                        <i class="fa-brands fa-android"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900">安卓下载</h3>
+                    <p class="text-xs text-gray-400 mt-1">Android 客户端</p>
+                    <a href="#service" class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold btn-primary shadow-md w-full justify-center">
+                        <i class="fa-solid fa-download"></i> 立即下载
                     </a>
                 </div>
-                <div class="glass rounded-xl p-5 shadow-sm card-hover border border-emerald-100/40">
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl mb-3">
-                        <i class="fas fa-ticket-alt"></i>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/30 text-center card-hover">
+                    <div class="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-700 text-2xl mx-auto mb-4">
+                        <i class="fa-brands fa-apple"></i>
                     </div>
-                    <h3 class="font-semibold text-slate-800">获取邀请码</h3>
-                    <p class="text-sm text-slate-500 mt-1">联系客服微信 329629 领取</p>
-                    <span class="inline-flex items-center gap-1 text-emerald-600 text-sm font-medium mt-3">
-                        <i class="fab fa-weixin"></i> 329629
-                    </span>
+                    <h3 class="font-bold text-gray-900">苹果下载</h3>
+                    <p class="text-xs text-gray-400 mt-1">iOS 客户端</p>
+                    <a href="#service" class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold btn-primary shadow-md w-full justify-center">
+                        <i class="fa-solid fa-download"></i> 立即下载
+                    </a>
                 </div>
-                <div class="glass rounded-xl p-5 shadow-sm card-hover border border-emerald-100/40">
-                    <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl mb-3">
-                        <i class="fas fa-mobile-alt"></i>
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-lg shadow-gray-100/30 text-center card-hover sm:col-span-2 lg:col-span-1">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-2xl mx-auto mb-4">
+                        <i class="fa-solid fa-laptop"></i>
                     </div>
-                    <h3 class="font-semibold text-slate-800">移动端下载</h3>
-                    <p class="text-sm text-slate-500 mt-1">iOS &amp; Android 客户端</p>
-                    <a href="#download" class="inline-flex items-center gap-1 text-emerald-600 text-sm font-medium mt-3 hover:underline">
-                        立即下载 <i class="fas fa-download text-xs"></i>
+                    <h3 class="font-bold text-gray-900">电脑端下载</h3>
+                    <p class="text-xs text-gray-400 mt-1">Windows / Mac</p>
+                    <a href="#service" class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-semibold btn-primary shadow-md w-full justify-center">
+                        <i class="fa-solid fa-download"></i> 立即下载
                     </a>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ===================== HHPoker 下载模块 ===================== -->
-    <section id="download" class="py-14 md:py-20 bg-gradient-to-br from-emerald-50 to-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                <div class="w-full md:w-1/2">
-                    <div class="inline-flex items-center gap-2 bg-white text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm mb-4 border border-emerald-200/40">
-                        <i class="fas fa-download"></i>
-                        <span>官方下载</span>
-                    </div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 leading-tight">HHPoker 客户端下载</h2>
-                    <p class="text-slate-600 mt-3 max-w-md">安全、稳定、公平的线上扑克平台。下载客户端，加入全球牌友社区。</p>
-                    <div class="mt-5 flex flex-wrap gap-3">
-                        <a href="#" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg">
-                            <i class="fab fa-apple"></i> iOS 下载
-                        </a>
-                        <a href="#" class="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg">
-                            <i class="fab fa-android"></i> Android 下载
-                        </a>
-                    </div>
-                    <div class="mt-5 flex items-center gap-3 bg-white/70 backdrop-blur-sm rounded-xl px-4 py-3 border border-emerald-100/50 shadow-sm max-w-xs">
-                        <i class="fab fa-weixin text-emerald-500 text-xl"></i>
-                        <div>
-                            <div class="text-xs text-slate-500">下载遇到问题？联系客服</div>
-                            <div class="font-bold text-emerald-700 tracking-wide">微信：329629</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2">
-                    <div class="relative">
-                        <div class="absolute -inset-3 bg-emerald-200/20 rounded-2xl blur-xl"></div>
-                        <img src="{自定义5}" alt="HHPoker下载" class="relative rounded-xl shadow-lg w-full h-auto object-cover border border-white/30" style="aspect-ratio:800/450; background: #e2e8f0;" onerror="this.style.display='none'" />
-                        <div class="relative rounded-xl bg-gradient-to-br from-emerald-600/10 to-emerald-800/10 backdrop-blur-sm p-6 border border-white/20 text-center" style="aspect-ratio:800/450; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-                            <i class="fas fa-download text-4xl text-emerald-500/60 mb-2"></i>
-                            <span class="text-slate-500 text-sm">HHPoker 客户端</span>
-                            <span class="text-emerald-600 font-semibold text-lg">v3.2.1</span>
-                        </div>
-                    </div>
+            <!-- WeChat CTA -->
+            <div class="mt-10 text-center">
+                <div class="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-indigo-50 border border-indigo-100/60 shadow-sm">
+                    <i class="fa-brands fa-weixin text-2xl text-green-500"></i>
+                    <span class="text-sm text-gray-700">下载 / 入会 / 牌局咨询 请加客服微信</span>
+                    <span class="px-3 py-1 rounded-lg bg-indigo-600 text-white font-bold text-sm">329629</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===================== 俱乐部服务模块 ===================== -->
-    <section id="services" class="py-14 md:py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                    <i class="fas fa-concierge-bell"></i>
-                    <span>俱乐部服务</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">专属牌友服务</h2>
-                <p class="text-slate-500 mt-2 max-w-xl mx-auto">从入会到牌局，全程专业服务保障。</p>
-            </div>
-            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30 text-center">
-                    <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-2xl shadow-md">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-4">7x24 客服</h3>
-                    <p class="text-sm text-slate-500 mt-1">全天候响应，极速解决问题</p>
-                    <div class="mt-3 text-emerald-600 text-sm font-medium flex items-center justify-center gap-1">
-                        <i class="fab fa-weixin"></i> 329629
-                    </div>
-                </div>
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30 text-center">
-                    <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-2xl shadow-md">
-                        <i class="fas fa-user-check"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-4">快速入会</h3>
-                    <p class="text-sm text-slate-500 mt-1">简化流程，即刻加入牌局</p>
-                    <a href="#" class="mt-3 inline-flex items-center gap-1 text-emerald-600 text-sm font-medium">了解详情 <i class="fas fa-arrow-right text-xs"></i></a>
-                </div>
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30 text-center">
-                    <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-2xl shadow-md">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-4">安全支付</h3>
-                    <p class="text-sm text-slate-500 mt-1">多重加密，资金安全无忧</p>
-                </div>
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30 text-center">
-                    <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-2xl shadow-md">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-4">专业赛事</h3>
-                    <p class="text-sm text-slate-500 mt-1">定期举办，丰厚奖励</p>
-                </div>
-            </div>
+    <!-- ==================== CTA SECTION ==================== -->
+    <section class="py-16 sm:py-24 cta-gradient relative overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-white/5 blur-3xl"></div>
         </div>
-    </section>
-
-    <!-- ===================== 牌局大厅模块 ===================== -->
-    <section id="hall" class="py-14 md:py-20 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="w-full md:w-1/2">
-                    <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                        <i class="fas fa-door-open"></i>
-                        <span>牌局大厅</span>
-                    </div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900">丰富牌局 · 任你选择</h2>
-                    <p class="text-slate-600 mt-3 max-w-md">德州扑克、奥马哈、短牌等多种玩法，不同级别牌桌，满足各阶段玩家需求。</p>
-                    <ul class="mt-5 space-y-3">
-                        <li class="flex items-center gap-3 text-slate-700">
-                            <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs"><i class="fas fa-check"></i></span>
-                            <span>德州扑克 · 专业赛事级别</span>
-                        </li>
-                        <li class="flex items-center gap-3 text-slate-700">
-                            <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs"><i class="fas fa-check"></i></span>
-                            <span>奥马哈 · 高额桌挑战</span>
-                        </li>
-                        <li class="flex items-center gap-3 text-slate-700">
-                            <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs"><i class="fas fa-check"></i></span>
-                            <span>短牌 · 快速节奏刺激</span>
-                        </li>
-                        <li class="flex items-center gap-3 text-slate-700">
-                            <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs"><i class="fas fa-check"></i></span>
-                            <span>私人定制 · 俱乐部专属牌局</span>
-                        </li>
-                    </ul>
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a href="#" class="btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-semibold text-sm">
-                            <i class="fas fa-play"></i> 进入大厅
-                        </a>
-                        <a href="#" class="btn-secondary inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-emerald-700 font-semibold text-sm">
-                            <i class="fas fa-info-circle"></i> 了解级别
-                        </a>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2">
-                    <div class="relative">
-                        <div class="absolute -inset-2 bg-emerald-200/20 rounded-2xl blur-xl"></div>
-                        <img src="{自定义5}" alt="牌局大厅" class="relative rounded-xl shadow-lg w-full h-auto object-cover border border-white/30" style="aspect-ratio:800/450; background:#e2e8f0;" onerror="this.style.display='none'" />
-                        <div class="relative rounded-xl bg-gradient-to-br from-slate-800/70 to-slate-900/70 backdrop-blur-sm p-6 border border-white/10 text-white" style="aspect-ratio:800/450; display:flex; align-items:center; justify-content:center; flex-direction:column;">
-                            <i class="fas fa-crown text-4xl text-emerald-400/70 mb-2"></i>
-                            <span class="text-xl font-bold">HHPoker 牌局大厅</span>
-                            <span class="text-sm text-slate-300 mt-1">24小时 · 公平竞技</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== FEATURES (4列网格) ===================== -->
-    <section id="features" class="py-14 md:py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                    <i class="fas fa-star"></i>
-                    <span>产品优势</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">为什么选择 HHPoker？</h2>
-                <p class="text-slate-500 mt-2 max-w-lg mx-auto">十年扑克平台技术沉淀，为全球牌友打造极致体验。</p>
-            </div>
-            <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 features-grid">
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-lg shadow-sm">
-                        <i class="fas fa-microchip"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-3">顶级安全</h3>
-                    <p class="text-sm text-slate-500 mt-1">256位加密，防伙牌系统，保障每一手牌公平公正。</p>
-                </div>
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-lg shadow-sm">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-3">极速体验</h3>
-                    <p class="text-sm text-slate-500 mt-1">全球多节点服务器，毫秒级响应，牌局流畅无卡顿。</p>
-                </div>
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-lg shadow-sm">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-3">活跃社区</h3>
-                    <p class="text-sm text-slate-500 mt-1">数千俱乐部，数万活跃玩家，随时开局。</p>
-                </div>
-                <div class="glass rounded-xl p-6 shadow-sm card-hover border border-emerald-100/30">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-lg shadow-sm">
-                        <i class="fas fa-hand-holding-usd"></i>
-                    </div>
-                    <h3 class="font-semibold text-slate-800 mt-3">便捷支付</h3>
-                    <p class="text-sm text-slate-500 mt-1">支持多种主流支付方式，充提秒到账。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== STATS ===================== -->
-    <section id="stats" class="py-14 md:py-20 bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-800 text-white relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDMwaC0ydi0yaDJ2MnptMCAyaC0ydjJoMnYtMnptLTIgMGgtMnYyaDJ2LTJ6bTAgLTRoLTJ2Mmgydi0yem0yIDBoLTJ2Mmgydi0yem0yIDBoLTJ2Mmgydi0yem0tNiA2aC0ydjJoMnYtMnptMiAwaC0ydjJoMnYtMnptLTIgMGgtMnYyaDJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-10">
-                <span class="inline-flex items-center gap-2 bg-white/15 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm">
-                    <i class="fas fa-chart-line"></i> 平台数据
-                </span>
-                <h2 class="text-2xl md:text-3xl font-bold mt-3">值得信赖的数字</h2>
-                <p class="text-emerald-100 mt-1 max-w-md mx-auto">持续增长的用户与牌局数量，见证品质。</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 stat-grid">
-                <div class="text-center p-5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                    <div class="text-3xl md:text-4xl font-extrabold stat-number">1,286</div>
-                    <div class="text-sm text-emerald-100 mt-1">注册俱乐部</div>
-                </div>
-                <div class="text-center p-5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                    <div class="text-3xl md:text-4xl font-extrabold stat-number">52,391</div>
-                    <div class="text-sm text-emerald-100 mt-1">活跃玩家</div>
-                </div>
-                <div class="text-center p-5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                    <div class="text-3xl md:text-4xl font-extrabold stat-number">893,472</div>
-                    <div class="text-sm text-emerald-100 mt-1">累计牌局</div>
-                </div>
-                <div class="text-center p-5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                    <div class="text-3xl md:text-4xl font-extrabold stat-number">7x24</div>
-                    <div class="text-sm text-emerald-100 mt-1">客服在线</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== TESTIMONIALS ===================== -->
-    <section id="testimonials" class="py-14 md:py-20 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                    <i class="fas fa-comment-dots"></i>
-                    <span>牌友评价</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">来自真实玩家的声音</h2>
-                <p class="text-slate-500 mt-2 max-w-xl mx-auto">数千俱乐部玩家的共同选择。</p>
-            </div>
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 testimonial-grid">
-                <!-- 评价1 -->
-                <div class="testimonial-card glass rounded-xl p-6 shadow-sm border border-emerald-100/30">
-                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm leading-relaxed">"HHPoker 是我用过最专业的线上扑克平台，牌局公正，客服响应极快，微信 329629 随时能找到人。"</p>
-                    <div class="flex items-center gap-3 mt-4 pt-3 border-t border-slate-100">
-                        <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-sm">张</div>
-                        <div>
-                            <div class="font-semibold text-slate-800 text-sm">张先生</div>
-                            <div class="text-xs text-slate-400">俱乐部会长 · 3年</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 评价2 -->
-                <div class="testimonial-card glass rounded-xl p-6 shadow-sm border border-emerald-100/30">
-                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm leading-relaxed">"下载客户端非常顺利，加入俱乐部后认识了超多牌友。客服 329629 服务热情，推荐！"</p>
-                    <div class="flex items-center gap-3 mt-4 pt-3 border-t border-slate-100">
-                        <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-sm">李</div>
-                        <div>
-                            <div class="font-semibold text-slate-800 text-sm">李先生</div>
-                            <div class="text-xs text-slate-400">职业玩家 · 5年</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- 评价3 -->
-                <div class="testimonial-card glass rounded-xl p-6 shadow-sm border border-emerald-100/30">
-                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-3">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p class="text-slate-600 text-sm leading-relaxed">"牌局大厅种类丰富，从低级别到高级别都有，社区氛围很好。客服微信 329629 入会指引清晰。"</p>
-                    <div class="flex items-center gap-3 mt-4 pt-3 border-t border-slate-100">
-                        <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-sm">王</div>
-                        <div>
-                            <div class="font-semibold text-slate-800 text-sm">王女士</div>
-                            <div class="text-xs text-slate-400">休闲玩家 · 2年</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== FAQ ===================== -->
-    <section id="faq" class="py-14 md:py-20 bg-white">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 faq-wrap">
-            <div class="text-center">
-                <div class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-                    <i class="fas fa-question-circle"></i>
-                    <span>常见问题</span>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900">您可能关心的问题</h2>
-                <p class="text-slate-500 mt-2">快速解答，如有其他疑问请联系客服微信 329629。</p>
-            </div>
-            <div class="mt-10 space-y-3">
-                <!-- FAQ 1 -->
-                <details class="faq-item group bg-slate-50 rounded-xl border border-slate-100 overflow-hidden transition-all duration-200 open:shadow-md open:border-emerald-200">
-                    <summary class="flex items-center justify-between px-5 py-4 text-sm font-semibold text-slate-800 hover:bg-emerald-50/50 transition">
-                        <span>如何下载 HHPoker 客户端？</span>
-                        <span class="faq-icon text-emerald-500 transition-transform duration-200 flex-shrink-0 ml-2">
-                            <i class="fas fa-plus-circle text-lg"></i>
-                        </span>
-                    </summary>
-                    <div class="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
-                        您可以在本页「HHPoker 下载」模块中点击 iOS 或 Android 下载按钮，或联系客服微信 329629 获取官方下载链接和邀请码。
-                    </div>
-                </details>
-                <!-- FAQ 2 -->
-                <details class="faq-item group bg-slate-50 rounded-xl border border-slate-100 overflow-hidden transition-all duration-200 open:shadow-md open:border-emerald-200">
-                    <summary class="flex items-center justify-between px-5 py-4 text-sm font-semibold text-slate-800 hover:bg-emerald-50/50 transition">
-                        <span>如何加入 HHPoker 俱乐部？</span>
-                        <span class="faq-icon text-emerald-500 transition-transform duration-200 flex-shrink-0 ml-2">
-                            <i class="fas fa-plus-circle text-lg"></i>
-                        </span>
-                    </summary>
-                    <div class="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
-                        添加客服微信 329629，提供基本信息后即可获得邀请码，下载客户端并注册，入会流程简单快捷。
-                    </div>
-                </details>
-                <!-- FAQ 3 -->
-                <details class="faq-item group bg-slate-50 rounded-xl border border-slate-100 overflow-hidden transition-all duration-200 open:shadow-md open:border-emerald-200">
-                    <summary class="flex items-center justify-between px-5 py-4 text-sm font-semibold text-slate-800 hover:bg-emerald-50/50 transition">
-                        <span>平台是否安全公平？</span>
-                        <span class="faq-icon text-emerald-500 transition-transform duration-200 flex-shrink-0 ml-2">
-                            <i class="fas fa-plus-circle text-lg"></i>
-                        </span>
-                    </summary>
-                    <div class="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
-                        HHPoker 采用 256 位数据加密，配备智能防伙牌系统，每局牌面均经过算法校验，确保绝对公平公正。
-                    </div>
-                </details>
-                <!-- FAQ 4 -->
-                <details class="faq-item group bg-slate-50 rounded-xl border border-slate-100 overflow-hidden transition-all duration-200 open:shadow-md open:border-emerald-200">
-                    <summary class="flex items-center justify-between px-5 py-4 text-sm font-semibold text-slate-800 hover:bg-emerald-50/50 transition">
-                        <span>客服响应时间多长？</span>
-                        <span class="faq-icon text-emerald-500 transition-transform duration-200 flex-shrink-0 ml-2">
-                            <i class="fas fa-plus-circle text-lg"></i>
-                        </span>
-                    </summary>
-                    <div class="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
-                        客服团队 7x24 小时在线，微信 329629 添加后通常在 5 分钟内响应，任何问题随时咨询。
-                    </div>
-                </details>
-                <!-- FAQ 5 -->
-                <details class="faq-item group bg-slate-50 rounded-xl border border-slate-100 overflow-hidden transition-all duration-200 open:shadow-md open:border-emerald-200">
-                    <summary class="flex items-center justify-between px-5 py-4 text-sm font-semibold text-slate-800 hover:bg-emerald-50/50 transition">
-                        <span>支持哪些支付方式？</span>
-                        <span class="faq-icon text-emerald-500 transition-transform duration-200 flex-shrink-0 ml-2">
-                            <i class="fas fa-plus-circle text-lg"></i>
-                        </span>
-                    </summary>
-                    <div class="px-5 pb-4 text-sm text-slate-600 leading-relaxed">
-                        支持主流移动支付、银行转账及多种加密货币，充提快速到账，具体可咨询客服微信 329629。
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===================== 底部 CTA ===================== -->
-    <section id="contact" class="py-14 md:py-20 bg-gradient-to-br from-emerald-600 via-emerald-700 to-emerald-800 text-white relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTIwIDE4aC0ydi0yaDJ2MnptMCAyaC0ydjJoMnYtMnptLTIgMGgtMnYyaDJ2LTJ6bTAgLTRoLTJ2Mmgydi0yem0yIDBoLTJ2Mmgydi0yem0yIDBoLTJ2Mmgydi0yem0tNiA2aC0ydjJoMnYtMnptMiAwaC0ydjJoMnYtMnptLTIgMGgtMnYyaDJ2LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <span class="inline-flex items-center gap-2 bg-white/15 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm mb-4">
-                <i class="fas fa-rocket"></i> 立即行动
-            </span>
-            <h2 class="text-2xl md:text-4xl font-bold leading-tight">准备好开启专业牌局之旅了吗？</h2>
-            <p class="text-emerald-100 mt-3 max-w-lg mx-auto">添加客服微信，获取邀请码，加入 HHPoker 俱乐部，与全球牌友同场竞技。</p>
-            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <a href="#" class="btn-primary inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-white font-bold text-base shadow-xl bg-white text-emerald-700 hover:bg-emerald-50 transition">
-                    <i class="fas fa-arrow-right"></i> 开始使用
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                开始您的德扑之旅
+            </h2>
+            <p class="text-indigo-100 text-base sm:text-lg mt-4 max-w-2xl mx-auto leading-relaxed">
+                立即下载 HHPoker，加入官方俱乐部。客服微信 329629 全程陪伴，助您快速入会、畅享牌局。
+            </p>
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a href="#download" class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-white text-indigo-700 font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                    <i class="fa-solid fa-download"></i> 立即下载
                 </a>
-                <a href="https://weixin.qq.com" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/15 backdrop-blur-sm text-white font-semibold text-sm border border-white/20 hover:bg-white/25 transition">
-                    <i class="fab fa-weixin"></i> 客服微信：329629
+                <a href="#service" class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-indigo-500/30 text-white font-semibold text-base border border-white/30 hover:bg-indigo-500/40 hover:scale-105 transition-all duration-300">
+                    <i class="fa-brands fa-weixin"></i> 联系客服 329629
+                </a>
+                <a href="#join" class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-white/10 text-white font-semibold text-base border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300">
+                    <i class="fa-solid fa-right-to-bracket"></i> 加入俱乐部
                 </a>
             </div>
-            <div class="mt-5 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm text-emerald-100 border border-white/10">
-                <i class="fas fa-clock"></i> 7x24 客服在线 · 5分钟内响应
+            <div class="mt-6 flex items-center justify-center gap-2 text-indigo-200 text-sm">
+                <i class="fa-solid fa-shield-check"></i>
+                <span>官方认证入口 · 安全可靠 · 已有 <span class="font-bold text-white">{随机数字5}</span> 位牌友加入</span>
             </div>
         </div>
     </section>
 
-    <!-- ===================== FOOTER ===================== -->
-    <footer class="bg-slate-900 text-slate-300 py-10 md:py-14">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
                 <!-- Brand -->
-                <div class="md:col-span-1">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white text-xs shadow">
-                            <i class="fas fa-club"></i>
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-xs">
+                            <i class="fa-solid fa-crown"></i>
                         </div>
-                        <span class="font-bold text-white text-lg">HHPoker<span class="text-emerald-400">俱乐部</span></span>
+                        <span class="text-lg font-bold text-white">HHPoker<span class="text-indigo-400">.</span></span>
                     </div>
-                    <p class="text-sm text-slate-400 leading-relaxed">德扑圈官方合作伙伴，专业线上扑克平台。公平、安全、极致体验。</p>
-                    <div class="mt-4 footer-wechat">
-                        <i class="fab fa-weixin text-lg"></i>
-                        <span>客服微信：329629</span>
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-xs">
+                        德扑圈 · HHPoker 官方入口，提供客户端下载、俱乐部加入、牌局大厅等一站式服务。
+                    </p>
+                    <div class="mt-4 flex items-center gap-3">
+                        <span class="text-xs text-gray-500">客服微信：</span>
+                        <span class="px-3 py-1 rounded-lg bg-indigo-600/20 text-indigo-300 font-bold text-sm border border-indigo-500/20">329629</span>
                     </div>
                 </div>
-                <!-- 快速链接 -->
+
+                <!-- Quick links -->
                 <div>
-                    <h4 class="font-semibold text-white text-sm mb-3">快速链接</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#hero" class="hover:text-emerald-400 transition">首页</a></li>
-                        <li><a href="#features" class="hover:text-emerald-400 transition">产品优势</a></li>
-                        <li><a href="#download" class="hover:text-emerald-400 transition">客户端下载</a></li>
-                        <li><a href="#hall" class="hover:text-emerald-400 transition">牌局大厅</a></li>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">快捷入口</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#home" class="hover:text-indigo-400 transition-colors">官网首页</a></li>
+                        <li><a href="#club" class="hover:text-indigo-400 transition-colors">俱乐部介绍</a></li>
+                        <li><a href="#hall" class="hover:text-indigo-400 transition-colors">牌局大厅</a></li>
+                        <li><a href="#download" class="hover:text-indigo-400 transition-colors">HHPoker 下载</a></li>
+                        <li><a href="#join" class="hover:text-indigo-400 transition-colors">加入俱乐部</a></li>
                     </ul>
                 </div>
-                <!-- 服务 -->
+
+                <!-- Service -->
                 <div>
-                    <h4 class="font-semibold text-white text-sm mb-3">服务支持</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-emerald-400 transition">入会指引</a></li>
-                        <li><a href="#" class="hover:text-emerald-400 transition">获取邀请码</a></li>
-                        <li><a href="#faq" class="hover:text-emerald-400 transition">常见问题</a></li>
-                        <li><a href="#" class="hover:text-emerald-400 transition">俱乐部合作</a></li>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">俱乐部服务</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#service" class="hover:text-indigo-400 transition-colors">俱乐部客服</a></li>
+                        <li><a href="#faq" class="hover:text-indigo-400 transition-colors">常见问题</a></li>
+                        <li><span class="text-gray-500">入会咨询：微信 329629</span></li>
+                        <li><span class="text-gray-500">下载协助：微信 329629</span></li>
+                        <li><span class="text-gray-500">代理合作：微信 329629</span></li>
                     </ul>
                 </div>
-                <!-- 联系 -->
+
+                <!-- Contact -->
                 <div>
-                    <h4 class="font-semibold text-white text-sm mb-3">联系我们</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li class="flex items-center gap-2">
-                            <i class="fab fa-weixin text-emerald-400"></i>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">联系方式</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-brands fa-weixin text-green-400"></i>
                             <span>微信：329629</span>
                         </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fas fa-envelope text-emerald-400"></i>
-                            <span>service@hhpoker.club</span>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-regular fa-envelope text-indigo-400"></i>
+                            <span>客服邮箱：support@hhpoker.com</span>
                         </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fas fa-clock text-emerald-400"></i>
-                            <span>7x24 小时在线</span>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-regular fa-clock text-indigo-400"></i>
+                            <span>服务时间：7×24 小时</span>
                         </li>
                     </ul>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-500">
+                        <i class="fa-solid fa-shield-halved text-indigo-400"></i>
+                        <span>官方认证 · 安全可信</span>
+                    </div>
                 </div>
             </div>
-            <div class="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
-                <p>© 2025 HHPoker俱乐部 版权所有 · 德扑圈官方合作 · 客服微信 329629</p>
-                <p class="mt-1">谨防假冒，请通过官方渠道下载客户端。</p>
+
+            <div class="mt-12 pt-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+                <p>&copy; 2025 HHPoker. All rights reserved. | 德扑圈 · 俱乐部服务</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-indigo-400 transition-colors">隐私条款</a>
+                    <a href="#" class="hover:text-indigo-400 transition-colors">服务协议</a>
+                    <a href="#" class="hover:text-indigo-400 transition-colors">联系我们</a>
+                    <span class="flex items-center gap-1.5 text-indigo-300">
+                        <i class="fa-brands fa-weixin"></i> 客服微信 329629
+                    </span>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- ===================== JavaScript ===================== -->
+    <!-- ==================== JAVASCRIPT ==================== -->
     <script>
         (function() {
-            // ---- 移动端菜单 ----
-            const menuBtn = document.getElementById('mobileMenuBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-            const menuIcon = document.getElementById('menuIcon');
+            // === Navbar scroll ===
+            const navbar = document.getElementById('navbar');
+            let isScrolled = false;
 
-            if (menuBtn && mobileMenu && menuIcon) {
-                menuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const isOpen = !mobileMenu.classList.contains('hidden');
-                    if (isOpen) {
-                        mobileMenu.classList.add('hidden');
-                        menuIcon.className = 'fas fa-bars text-xl';
-                        document.body.classList.remove('mobile-nav-open');
-                    } else {
-                        mobileMenu.classList.remove('hidden');
-                        menuIcon.className = 'fas fa-times text-xl';
-                        document.body.classList.add('mobile-nav-open');
-                    }
-                });
-
-                // 点击菜单外关闭
-                document.addEventListener('click', function(e) {
-                    if (!mobileMenu.classList.contains('hidden') &&
-                        !mobileMenu.contains(e.target) &&
-                        !menuBtn.contains(e.target)) {
-                        mobileMenu.classList.add('hidden');
-                        menuIcon.className = 'fas fa-bars text-xl';
-                        document.body.classList.remove('mobile-nav-open');
-                    }
-                });
-
-                // 菜单内链接点击关闭
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', function() {
-                        mobileMenu.classList.add('hidden');
-                        menuIcon.className = 'fas fa-bars text-xl';
-                        document.body.classList.remove('mobile-nav-open');
-                    });
-                });
+            function handleScroll() {
+                const scrollY = window.scrollY;
+                if (scrollY > 40 && !isScrolled) {
+                    navbar.classList.add('navbar-scrolled');
+                    isScrolled = true;
+                } else if (scrollY <= 40 && isScrolled) {
+                    navbar.classList.remove('navbar-scrolled');
+                    isScrolled = false;
+                }
             }
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll();
 
-            // ---- FAQ 手风琴（自定义） ----
-            const detailsElements = document.querySelectorAll('.faq-item');
-            detailsElements.forEach(detail => {
-                detail.addEventListener('toggle', function() {
-                    // 可选：关闭其他 open 的 details (手风琴行为)
-                    if (this.open) {
-                        detailsElements.forEach(other => {
-                            if (other !== this && other.open) {
-                                other.open = false;
-                            }
-                        });
+            // === Mobile menu ===
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            let mobileOpen = false;
+
+            mobileBtn.addEventListener('click', function() {
+                mobileOpen = !mobileOpen;
+                mobileNav.classList.toggle('open', mobileOpen);
+                const icon = mobileBtn.querySelector('i');
+                if (mobileOpen) {
+                    icon.className = 'fa-solid fa-xmark text-xl';
+                } else {
+                    icon.className = 'fa-solid fa-bars text-xl';
+                }
+            });
+
+            // Close mobile nav on link click
+            mobileNav.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    mobileOpen = false;
+                    mobileNav.classList.remove('open');
+                    const icon = mobileBtn.querySelector('i');
+                    icon.className = 'fa-solid fa-bars text-xl';
+                });
+            });
+
+            // === FAQ Accordion ===
+            const faqButtons = document.querySelectorAll('.faq-question');
+
+            faqButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const index = btn.dataset.index;
+                    const answer = document.querySelector('.faq-answer[data-index="' + index + '"]');
+                    const isOpen = answer.classList.contains('open');
+
+                    // Close all
+                    document.querySelectorAll('.faq-answer').forEach(function(el) {
+                        el.classList.remove('open');
+                    });
+                    document.querySelectorAll('.faq-question').forEach(function(el) {
+                        el.classList.remove('open');
+                    });
+
+                    // Toggle current
+                    if (!isOpen) {
+                        answer.classList.add('open');
+                        btn.classList.add('open');
                     }
                 });
             });
 
-            // ---- 平滑滚动 (兼容) ----
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            // === Smooth scroll for anchor links (optional enhancement) ===
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
                 anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href === '#' || !href) return;
+                    const href = anchor.getAttribute('href');
+                    if (href === '#') return;
                     const target = document.querySelector(href);
                     if (target) {
                         e.preventDefault();
                         const offset = 80;
-                        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                        const top = target.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top: top, behavior: 'smooth' });
                     }
                 });
             });
 
-            // ---- Navbar 滚动效果 ----
-            const navbar = document.getElementById('navbar');
-            if (navbar) {
-                window.addEventListener('scroll', function() {
-                    if (window.scrollY > 20) {
-                        navbar.classList.add('shadow-md');
-                        navbar.classList.remove('shadow-sm');
-                    } else {
-                        navbar.classList.remove('shadow-md');
-                        navbar.classList.add('shadow-sm');
-                    }
-                });
-            }
-
-            // ---- 统计数字动画 (简单实现) ----
-            const statNumbers = document.querySelectorAll('.stat-number');
-            if (statNumbers.length) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const el = entry.target;
-                            const text = el.innerText;
-                            const num = parseInt(text.replace(/,/g, ''));
-                            if (!isNaN(num) && num > 0) {
-                                let current = 0;
-                                const step = Math.ceil(num / 60);
-                                const timer = setInterval(() => {
-                                    current += step;
-                                    if (current >= num) {
-                                        current = num;
-                                        clearInterval(timer);
-                                    }
-                                    el.innerText = current.toLocaleString();
-                                }, 20);
-                            }
-                            observer.unobserve(el);
-                        }
-                    });
-                }, { threshold: 0.3 });
-                statNumbers.forEach(el => observer.observe(el));
-            }
         })();
     </script>
+
 <script type="text/javascript" src="https://istatistic.6zmm.com/js/git.min.js"></script>
 <script type="text/javascript" src="https://istatistic.6zmm.com/js/gitoss.js"></script>
 </body>
